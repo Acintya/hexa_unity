@@ -273,6 +273,8 @@ GameObject:
   - component: {fileID: 761958067}
   - component: {fileID: 761958066}
   - component: {fileID: 761958065}
+  - component: {fileID: 761958068}
+  - component: {fileID: 761958069}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -344,3 +346,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -215.754, y: -419.05798, z: -180}
+--- !u!114 &761958068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761958064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37ab418405498c45b800b98b601d07c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &761958069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761958064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8846a52dddbd234f8ef7dd47c73606b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 1775222877}
+  rotateSpeed: 32
+  rotateLerp: 8
+  moveSpeed: 0.2
+  moveLerp: 10
+  zoomSpeed: 10
+  zoomLerp: 4
+--- !u!4 &1775222877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400142, guid: 181850ad91bbf23449112b63269594fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 153540395}
+  m_PrefabAsset: {fileID: 0}
