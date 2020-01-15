@@ -92,29 +92,29 @@ public class FreeCameraController : MonoBehaviour
             }
         }
 
-        // 上移
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        {
-            targetPosition -= transform.up * d_target_distance / (2f * default_distance);
-        }
+        //// 上移
+        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        //{
+        //    targetPosition -= transform.up * d_target_distance / (2f * default_distance);
+        //}
 
-        // 下移
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        {
-            targetPosition += transform.up * d_target_distance / (2f * default_distance);
-        }
+        //// 下移
+        //if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        //{
+        //    targetPosition += transform.up * d_target_distance / (2f * default_distance);
+        //}
 
-        // 左移
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            targetPosition += transform.right * d_target_distance / (2f * default_distance);
-        }
+        //// 左移
+        //if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        //{
+        //    targetPosition += transform.right * d_target_distance / (2f * default_distance);
+        //}
 
-        // 右移
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            targetPosition -= transform.right * d_target_distance / (2f * default_distance);
-        }
+        //// 右移
+        //if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        //{
+        //    targetPosition -= transform.right * d_target_distance / (2f * default_distance);
+        //}
 
         // 鼠标滚轮拉伸
         targetDistance -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;

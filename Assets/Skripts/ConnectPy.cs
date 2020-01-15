@@ -4,20 +4,20 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
+using UnityEngine.UI;
+using System;
 
 public struct Parameters
 {
-    public string AcademyName;
-    public string apiNumber;
-    public string logPath;
-    public List<string> brainNames;
-    public List<string> externalBrainNames;
+    public List<float> EffectorPosition;
+    public List<float> EffectorOrientation;
 }
 
 
 public class ConnectPy : MonoBehaviour
 {
+    public InputField Infobox;
+
     const string api = "API-2";
     Socket sender;
     byte[] messageHolder;
@@ -25,42 +25,48 @@ public class ConnectPy : MonoBehaviour
 
     bool init = false;
     int index = 0;
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(20, 20, 120, 60), "CONNECT"))
-        {
-            if (!init)
-                Initial();
-            else
-                Debug.Log("Socket has Initial");
-        }
-        if (GUI.Button(new Rect(20, 130, 120, 60), "HELLO"))
-        {
-            if (init)
-            {
-                SendString("hello world " + index++);
-            }
-        }
-        if (GUI.Button(new Rect(20, 240, 120, 60), "ACTION"))
-        {
-            if (init)
-            {
-                SendString("ACTION");
-                new Thread(() => 
-                {
-                    Receive();
-                }).Start();
-            }
-        }
-        if (GUI.Button(new Rect(20, 350, 120, 60), "EXIT"))
-        {
-            SendString("EXIT");
-            OnApplicationQuit();
-        }
-    }
+
+    Parameters paramerters = new Parameters();
+    //void OnGUI()
+    //{
+    //    if (GUI.Button(new Rect(20, 20, 120, 60), "CONNECT"))
+    //    {
+    //        if (!init)
+    //            Initial();
+    //        else
+    //            Debug.Log("Socket has Initial");
+    //    }
+    //    if (GUI.Button(new Rect(20, 130, 120, 60), "IKP"))
+    //    {
+    //        if (init)
+    //        {
+    //            SendParameters(paramerters);
+    //            new Thread(() =>
+    //            {
+    //                Receive();
+    //            }).Start();
+    //        }
+    //    }
+    //    if (GUI.Button(new Rect(20, 240, 120, 60), "ACTION"))
+    //    {
+    //        if (init)
+    //        {
+    //            SendString("ACTION");
+    //            new Thread(() => 
+    //            {
+    //                Receive();
+    //            }).Start();
+    //        }
+    //    }
+    //    if (GUI.Button(new Rect(20, 350, 120, 60), "EXIT"))
+    //    {
+    //        SendString("EXIT");
+    //        OnApplicationQuit();
+    //    }
+    //}
 
 
-    void Initial()
+    public void Initial()
     {
         init = true;
         messageHolder = new byte[messageLength];
@@ -68,28 +74,32 @@ public class ConnectPy : MonoBehaviour
         // Create a TCP/IP  socket
         sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         sender.Connect("localhost", 5006);
-        Parameters paramerters = new Parameters();
-        paramerters.brainNames = new List<string>();
-        paramerters.brainNames.Add("hello world");
-        paramerters.brainNames.Add("test job");
-        paramerters.externalBrainNames = new List<string>();
-        paramerters.externalBrainNames.Add("externalBrainNames");
-        paramerters.apiNumber = api;
-        paramerters.logPath = "/tmp/unity.log";
-        paramerters.AcademyName = gameObject.name;
-        SendParameters(paramerters);
+        paramerters.EffectorPosition = new List<float>();
+        paramerters.EffectorPosition.Add(0);
+        paramerters.EffectorPosition.Add(0);
+        paramerters.EffectorPosition.Add(-500);
+        paramerters.EffectorOrientation = new List<float>();
+        paramerters.EffectorOrientation.Add(0);
+        paramerters.EffectorOrientation.Add(0);
+        paramerters.EffectorOrientation.Add(0);
+        Infobox.text += "***   socket is init   ***" + Environment.NewLine;
         Debug.Log("***   socket is init   ***");
     }
 
 
-    private void SendParameters(Parameters envParams)
+    public void SendParameters()
     {
-        string envMessage = JsonConvert.SerializeObject(envParams, Formatting.Indented);
-        Debug.Log(envMessage);
+        string envMessage = JsonConvert.SerializeObject(paramerters, Formatting.Indented);
+        Infobox.text += envMessage;
         sender.Send(Encoding.UTF8.GetBytes(envMessage));
+        new Thread(() =>
+                {
+                    Receive();
+                }).Start();
+
     }
 
-    private void SendString(string str)
+    public void SendString(string str)
     {
         try
         {
@@ -115,9 +125,10 @@ public class ConnectPy : MonoBehaviour
         int location = sender.Receive(messageHolder);
         string message = Encoding.UTF8.GetString(messageHolder, 0, location);
         Debug.Log("recv: " + message);
+        Infobox.text += "recv: " + message;
     }
 
-    private void OnApplicationQuit()
+    public void OnApplicationQuit()
     {
         if (init && sender != null)
         {
