@@ -50,4 +50,5 @@ public class HexaClient : MonoBehaviour
             IKPResOutput[i].text = IKPResults[i].ToString();
         }
     }
+
 }
