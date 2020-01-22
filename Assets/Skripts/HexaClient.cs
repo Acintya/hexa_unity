@@ -6,11 +6,14 @@ public class HexaClient : MonoBehaviour
 {
     public List<InputField> IKPParamInput;
     public List<InputField> IKPResOutput;
+    public GameObject HexaRobot;
+    public InputField Infobox;
 
     private HexaRequester _hexaRequester;
     private List<float> IKPParams;
     private List<float> IKPResults;
     private List<float> FKPParams;
+    private HexaAnimationController _hexaAnimationController;
 
     private void Start()
     {
@@ -18,6 +21,8 @@ public class HexaClient : MonoBehaviour
         _hexaRequester.Start();
         IKPParams = new List<float>();
         IKPResults = new List<float>();
+
+        _hexaAnimationController = HexaRobot.GetComponent<HexaAnimationController>();
     }
 
     private void OnDestroy()
@@ -28,10 +33,20 @@ public class HexaClient : MonoBehaviour
     [ContextMenu("IKP")]
     public void IKP()
     {
-        Debug.Log("IKP");
-        UpdateIKPParameters();
-        IKPResults = _hexaRequester.ReqIKP(IKPParams);
-        UpdateIKPResults();
+        try
+        {
+            Debug.Log("IKP");
+            UpdateIKPParameters();
+            IKPResults = _hexaRequester.ReqIKP(IKPParams);
+            UpdateIKPResults();
+
+            _hexaAnimationController.Animate(IKPParams, IKPResults);
+        }
+        catch (System.Exception e)
+        {
+            Infobox.text += e.Message;
+        }
+        
     }
 
     private void UpdateIKPParameters()
