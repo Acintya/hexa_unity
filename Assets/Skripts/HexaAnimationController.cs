@@ -50,7 +50,7 @@ public class HexaAnimationController : MonoBehaviour
         Platform.transform.localPosition = (new Vector3(platformPose[1], - platformPose[2], platformPose[0]) + BaseOrigin.transform.localPosition) * UnityUnitPerMm;
         Debug.Log(Platform.transform.localPosition);
         Platform.transform.localEulerAngles = new Vector3(platformPose[3], 120 - platformPose[4], platformPose[5]);
-
+        
         UpperArms[0].localEulerAngles = new Vector3(0, 30, acuatorAngles[0] - 45);
         UpperArms[5].localEulerAngles = new Vector3(0, 30, acuatorAngles[5] - 45 );
 

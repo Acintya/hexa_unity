@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public class HexaClient : MonoBehaviour
 {
     public List<InputField> IKPParamInput;
@@ -11,7 +12,7 @@ public class HexaClient : MonoBehaviour
 
     private HexaRequester _hexaRequester;
     private List<float> IKPParams;
-    private List<float> IKPResults;
+    private IKPResult _IKPResult;
     private List<float> FKPParams;
     private HexaAnimationController _hexaAnimationController;
 
@@ -20,7 +21,6 @@ public class HexaClient : MonoBehaviour
         _hexaRequester = new HexaRequester();
         _hexaRequester.Start();
         IKPParams = new List<float>();
-        IKPResults = new List<float>();
 
         _hexaAnimationController = HexaRobot.GetComponent<HexaAnimationController>();
     }
@@ -37,10 +37,13 @@ public class HexaClient : MonoBehaviour
         {
             Debug.Log("IKP");
             UpdateIKPParameters();
-            IKPResults = _hexaRequester.ReqIKP(IKPParams);
+            _IKPResult = _hexaRequester.ReqIKP(IKPParams);
             UpdateIKPResults();
 
-            _hexaAnimationController.Animate(IKPParams, IKPResults);
+            if (_IKPResult.ResState == "OK")
+                _hexaAnimationController.Animate(IKPParams, _IKPResult.AcuatorAngels);
+            else
+                Infobox.text += _IKPResult.Message;
         }
         catch (System.Exception e)
         {
@@ -60,9 +63,9 @@ public class HexaClient : MonoBehaviour
 
     private void UpdateIKPResults()
     {
-        for (int i = 0; i < IKPResults.Count; i++)
+        for (int i = 0; i < _IKPResult.AcuatorAngels.Count; i++)
         {
-            IKPResOutput[i].text = IKPResults[i].ToString();
+            IKPResOutput[i].text = _IKPResult.AcuatorAngels[i].ToString();
         }
     }
 

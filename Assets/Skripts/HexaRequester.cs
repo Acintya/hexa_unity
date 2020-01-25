@@ -21,6 +21,8 @@ public struct FKPParameters
 
 public struct IKPResult
 {
+    public string ResState;
+    public string Message;
     public List<float> AcuatorAngels;
 }
 
@@ -46,7 +48,7 @@ public class HexaRequester : RunAbleThread
         NetMQConfig.Cleanup(); // this line is needed to prevent unity freeze after one use, not sure why yet
     }
 
-    public List<float> ReqIKP(List<float> IKPParameters)
+    public IKPResult ReqIKP(List<float> IKPParameters)
     {
         ForceDotNet.Force();
         IKPResult result = new IKPResult();
@@ -78,6 +80,6 @@ public class HexaRequester : RunAbleThread
 
         }
         NetMQConfig.Cleanup();
-        return result.AcuatorAngels;
+        return result;
     }
 }
