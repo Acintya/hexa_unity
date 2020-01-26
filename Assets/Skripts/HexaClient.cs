@@ -33,22 +33,30 @@ public class HexaClient : MonoBehaviour
     [ContextMenu("IKP")]
     public void IKP()
     {
-        try
-        {
+        //try
+        //{
             Debug.Log("IKP");
             UpdateIKPParameters();
             _IKPResult = _hexaRequester.ReqIKP(IKPParams);
-            UpdateIKPResults();
-
+            Debug.Log(_IKPResult.ResState);
             if (_IKPResult.ResState == "OK")
+            {
+                UpdateIKPResults();
                 _hexaAnimationController.Animate(IKPParams, _IKPResult.AcuatorAngels);
+                Infobox.text = "Time of IKP calculation: " + _IKPResult.CalcTime.ToString() + " ms.";
+            }
+            else if (_IKPResult.ResState == "Failed")
+            {
+                Infobox.text = "Cannot calculate the IKP with the input parameters.";
+                Debug.Log("failed");
+            }
             else
                 Infobox.text += _IKPResult.Message;
-        }
-        catch (System.Exception e)
-        {
-            Infobox.text += e.Message;
-        }
+        //}
+        //catch (System.Exception e)
+        //{
+        //    Infobox.text += e.Message;
+        //}
         
     }
 

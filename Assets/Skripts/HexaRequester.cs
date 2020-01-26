@@ -24,6 +24,7 @@ public struct IKPResult
     public string ResState;
     public string Message;
     public List<float> AcuatorAngels;
+    public float CalcTime;
 }
 
 /// <summary>
