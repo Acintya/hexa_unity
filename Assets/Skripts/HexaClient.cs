@@ -37,6 +37,10 @@ public class HexaClient : MonoBehaviour
         //{
             Debug.Log("IKP");
             UpdateIKPParameters();
+            //if (IKPParams.)
+            //{
+
+            //}
             _IKPResult = _hexaRequester.ReqIKP(IKPParams);
             Debug.Log(_IKPResult.ResState);
             if (_IKPResult.ResState == "OK")
